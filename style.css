@@ -861,3 +861,20 @@ button {
     transition: none !important;
   }
 }
+
+/* Dynamic offer countdown */
+.offer-countdown {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 0.65rem;
+  padding: 0.45rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.offer-countdown.expired {
+  opacity: 0.65;
+}

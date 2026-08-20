@@ -1,142 +1,233 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Lala Paneer Udyog — fresh dairy products, paneer, desi ghee, dahi, mawa and bulk dairy supply near Rampura Dabri, Jaipur, Rajasthan.">
-  <meta name="theme-color" content="#fffaf0">
-  <meta property="og:title" content="Lala Paneer Udyog | उच्च क्वालिटी, वाजिब दाम">
-  <meta property="og:description" content="Fresh dairy products and reliable bulk supply from Lala Paneer Udyog.">
-  <meta property="og:type" content="website">
-  <title>Lala Paneer Udyog | लाला पनीर उद्योग</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Lala Paneer Udyog — fresh dairy products, paneer, desi ghee, dahi, mawa and bulk dairy supply near Rampura Dabri, Jaipur, Rajasthan."
+    />
+    <meta name="theme-color" content="#fffaf0" />
+    <meta
+      property="og:title"
+      content="Lala Paneer Udyog | उच्च क्वालिटी, वाजिब दाम"
+    />
+    <meta
+      property="og:description"
+      content="Fresh dairy products and reliable bulk supply from Lala Paneer Udyog."
+    />
+    <meta property="og:type" content="website" />
+    <title>Lala Paneer Udyog | लाला पनीर उद्योग</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <header class="site-header">
+      <a class="brand" href="index.html" aria-label="Lala Paneer Udyog home">
+        <span class="brand-mark">LP</span>
+        <span
+          ><strong>लाला पनीर उद्योग</strong
+          ><small>Lala Paneer Udyog</small></span
+        >
+      </a>
+      <button
+        class="nav-toggle"
+        id="navToggle"
+        aria-label="Open navigation"
+        aria-expanded="false"
+      >
+        ☰
+      </button>
+      <nav class="nav" id="siteNav">
+        <a class="active" href="index.html">Home</a>
+        <a href="products.html">Products</a>
+        <a href="services.html">Services</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a class="nav-cta" data-whatsapp-link href="#">WhatsApp</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero section">
+        <div class="hero-copy">
+          <span class="eyebrow">Fresh • Trusted • Local</span>
+          <h1>उच्च क्वालिटी,<br /><span>वाजिब दाम</span></h1>
+          <p class="hero-lead">
+            Fresh dairy products for families, restaurants, hotels, events and
+            bulk requirements — with dependable service from Lala Paneer Udyog.
+          </p>
+          <div class="actions">
+            <a class="btn btn-primary" data-whatsapp-link href="#"
+              >Order / Enquire on WhatsApp</a
+            >
+            <a class="btn btn-secondary" href="tel:+918949162380"
+              >Call 8949162380</a
+            >
+          </div>
+          <p class="trust-line">“सबके मुँह पर एक ही नाम - लाला पनीर वाला”</p>
+        </div>
+        <div class="hero-card">
+          <div class="hero-card-top">
+            <span>Fresh Dairy</span><span>Since your trust</span>
+          </div>
+          <div class="milk-art" aria-hidden="true">🥛</div>
+          <h2>आपकी खुशी और स्वाद की पूरी जिम्मेदारी हमारी।</h2>
+          <p>Paneer • Desi Ghee • Dahi • Mawa • Milk • Chhachh • Fresh Cream</p>
+        </div>
+      </section>
+
+      <section class="section section-soft">
+        <div class="section-heading">
+          <span class="eyebrow">Our Products</span>
+          <h2>Fresh dairy, managed directly</h2>
+          <p>
+            Current products, prices, availability and offers are loaded from
+            Firebase.
+          </p>
+        </div>
+        <div class="product-grid" id="featuredProducts">
+          <div class="loading-card">Loading products…</div>
+        </div>
+        <div class="center">
+          <a class="btn btn-secondary" href="products.html"
+            >View all products</a
+          >
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="split">
+          <div>
+            <span class="eyebrow">Bulk & Events</span>
+            <h2>One supplier for your bigger requirements.</h2>
+            <p>
+              Wedding orders, hotel supply, restaurant supply, birthday parties,
+              engagements, religious events, family functions and bulk dairy
+              supply.
+            </p>
+            <a class="text-link" href="services.html">Explore services →</a>
+          </div>
+          <div class="feature-list">
+            <article>
+              <span>01</span>
+              <div>
+                <h3>Wedding & Halwai</h3>
+                <p>
+                  Plan dairy and halwai material requirements for functions.
+                </p>
+              </div>
+            </article>
+            <article>
+              <span>02</span>
+              <div>
+                <h3>Hotel & Restaurant</h3>
+                <p>Reliable supply for regular professional requirements.</p>
+              </div>
+            </article>
+            <article>
+              <span>03</span>
+              <div>
+                <h3>Bulk Dairy Supply</h3>
+                <p>Discuss quantity, date and preferred delivery or pickup.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-soft">
+        <div class="section-heading">
+          <span class="eyebrow">Why Lala Paneer Wala</span>
+          <h2>Built around quality and service.</h2>
+        </div>
+        <div class="trust-grid">
+          <article>
+            <div class="icon">✓</div>
+            <h3>Quality focused</h3>
+            <p>
+              Fresh dairy products presented with clear product and availability
+              information.
+            </p>
+          </article>
+          <article>
+            <div class="icon">₹</div>
+            <h3>Fair pricing</h3>
+            <p>
+              Current pricing is controlled through the business Admin Panel.
+            </p>
+          </article>
+          <article>
+            <div class="icon">☎</div>
+            <h3>Easy ordering</h3>
+            <p>
+              Call, WhatsApp or submit an enquiry directly from the website.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <span class="eyebrow">Customer words</span>
+          <h2>What customers have said</h2>
+        </div>
+        <div class="review-grid">
+          <blockquote>“Best quality products best service”</blockquote>
+          <blockquote>“Very good product”</blockquote>
+          <blockquote>“Ghee Bhot acha tha”</blockquote>
+        </div>
+      </section>
+
+      <section class="location section section-dark">
+        <div>
+          <span class="eyebrow">Visit / Connect</span>
+          <h2>Lala Paneer Udyog</h2>
+          <p>
+            Near Tatiyawas Toll Plaza, Rampura Dabri, District Jaipur, Rajasthan
+            – 303704
+          </p>
+          <div class="actions">
+            <a class="btn btn-light" href="tel:+918949162380">Call</a>
+            <a class="btn btn-outline-light" data-whatsapp-link href="#"
+              >WhatsApp</a
+            >
+          </div>
+        </div>
+        <div class="map-card">
+          <iframe
+            title="Lala Paneer Udyog location map"
+            loading="lazy"
+            src="https://www.google.com/maps?q=3PXR%2BFV%20Rampura%20Dabri%2C%20Akeda%20Chaud%2C%20Rajasthan&output=embed"
+          ></iframe>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div>
+        <strong>Lala Paneer Udyog</strong>
+        <p>उच्च क्वालिटी, वाजिब दाम</p>
+      </div>
+      <div>
+        <p>8949162380 · 8003647577</p>
+        <p>lalapaneeru@gmail.com</p>
+      </div>
+      <div class="footer-credit">Built with ❤️ by CityByteHub</div>
+    </footer>
+
+    <div class="mobile-actions">
+      <a href="tel:+918949162380">Call</a>
+      <a data-whatsapp-link href="#">WhatsApp</a>
+    </div>
+  </body>
+
   <script type="module" src="js/firebase.js"></script>
   <script type="module" src="js/site.js"></script>
-</head>
-<body>
-  <header class="site-header">
-    <a class="brand" href="index.html" aria-label="Lala Paneer Udyog home">
-      <span class="brand-mark">LP</span>
-      <span><strong>लाला पनीर उद्योग</strong><small>Lala Paneer Udyog</small></span>
-    </a>
-    <button class="nav-toggle" id="navToggle" aria-label="Open navigation" aria-expanded="false">☰</button>
-    <nav class="nav" id="siteNav">
-      <a class="active" href="index.html">Home</a>
-      <a href="products.html">Products</a>
-      <a href="services.html">Services</a>
-      <a href="about.html">About</a>
-      <a href="contact.html">Contact</a>
-      <a class="nav-cta" data-whatsapp-link href="#">WhatsApp</a>
-    </nav>
-  </header>
-
-  <main>
-    <section class="hero section">
-      <div class="hero-copy">
-        <span class="eyebrow">Fresh • Trusted • Local</span>
-        <h1>उच्च क्वालिटी,<br><span>वाजिब दाम</span></h1>
-        <p class="hero-lead">Fresh dairy products for families, restaurants, hotels, events and bulk requirements — with dependable service from Lala Paneer Udyog.</p>
-        <div class="actions">
-          <a class="btn btn-primary" data-whatsapp-link href="#">Order / Enquire on WhatsApp</a>
-          <a class="btn btn-secondary" href="tel:+918949162380">Call 8949162380</a>
-        </div>
-        <p class="trust-line">“सबके मुँह पर एक ही नाम - लाला पनीर वाला”</p>
-      </div>
-      <div class="hero-card">
-        <div class="hero-card-top"><span>Fresh Dairy</span><span>Since your trust</span></div>
-        <div class="milk-art" aria-hidden="true">🥛</div>
-        <h2>आपकी खुशी और स्वाद की पूरी जिम्मेदारी हमारी।</h2>
-        <p>Paneer • Desi Ghee • Dahi • Mawa • Milk • Chhachh • Fresh Cream</p>
-      </div>
-    </section>
-
-    <section class="section section-soft">
-      <div class="section-heading">
-        <span class="eyebrow">Our Products</span>
-        <h2>Fresh dairy, managed directly</h2>
-        <p>Current products, prices, availability and offers are loaded from Firebase.</p>
-      </div>
-      <div class="product-grid" id="featuredProducts">
-        <div class="loading-card">Loading products…</div>
-      </div>
-      <div class="center"><a class="btn btn-secondary" href="products.html">View all products</a></div>
-    </section>
-
-    <section class="section">
-      <div class="split">
-        <div>
-          <span class="eyebrow">Bulk & Events</span>
-          <h2>One supplier for your bigger requirements.</h2>
-          <p>Wedding orders, hotel supply, restaurant supply, birthday parties, engagements, religious events, family functions and bulk dairy supply.</p>
-          <a class="text-link" href="services.html">Explore services →</a>
-        </div>
-        <div class="feature-list">
-          <article><span>01</span><div><h3>Wedding & Halwai</h3><p>Plan dairy and halwai material requirements for functions.</p></div></article>
-          <article><span>02</span><div><h3>Hotel & Restaurant</h3><p>Reliable supply for regular professional requirements.</p></div></article>
-          <article><span>03</span><div><h3>Bulk Dairy Supply</h3><p>Discuss quantity, date and preferred delivery or pickup.</p></div></article>
-        </div>
-      </div>
-    </section>
-
-    <section class="section section-soft">
-      <div class="section-heading">
-        <span class="eyebrow">Why Lala Paneer Wala</span>
-        <h2>Built around quality and service.</h2>
-      </div>
-      <div class="trust-grid">
-        <article><div class="icon">✓</div><h3>Quality focused</h3><p>Fresh dairy products presented with clear product and availability information.</p></article>
-        <article><div class="icon">₹</div><h3>Fair pricing</h3><p>Current pricing is controlled through the business Admin Panel.</p></article>
-        <article><div class="icon">☎</div><h3>Easy ordering</h3><p>Call, WhatsApp or submit an enquiry directly from the website.</p></article>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="section-heading">
-        <span class="eyebrow">Customer words</span>
-        <h2>What customers have said</h2>
-      </div>
-      <div class="review-grid">
-        <blockquote>“Best quality products best service”</blockquote>
-        <blockquote>“Very good product”</blockquote>
-        <blockquote>“Ghee Bhot acha tha”</blockquote>
-      </div>
-    </section>
-
-    <section class="location section section-dark">
-      <div>
-        <span class="eyebrow">Visit / Connect</span>
-        <h2>Lala Paneer Udyog</h2>
-        <p>Near Tatiyawas Toll Plaza, Rampura Dabri, District Jaipur, Rajasthan – 303704</p>
-        <div class="actions">
-          <a class="btn btn-light" href="tel:+918949162380">Call</a>
-          <a class="btn btn-outline-light" data-whatsapp-link href="#">WhatsApp</a>
-        </div>
-      </div>
-      <div class="map-card">
-        <iframe title="Lala Paneer Udyog location map" loading="lazy"
-          src="https://www.google.com/maps?q=3PXR%2BFV%20Rampura%20Dabri%2C%20Akeda%20Chaud%2C%20Rajasthan&output=embed"></iframe>
-      </div>
-    </section>
-  </main>
-
-  <footer class="footer">
-    <div>
-      <strong>Lala Paneer Udyog</strong>
-      <p>उच्च क्वालिटी, वाजिब दाम</p>
-    </div>
-    <div>
-      <p>8949162380 · 8003647577</p>
-      <p>lalapaneeru@gmail.com</p>
-    </div>
-    <div class="footer-credit">Built with ❤️ by CityByteHub</div>
-  </footer>
-
-  <div class="mobile-actions">
-    <a href="tel:+918949162380">Call</a>
-    <a data-whatsapp-link href="#">WhatsApp</a>
-  </div>
-</body>
 </html>
