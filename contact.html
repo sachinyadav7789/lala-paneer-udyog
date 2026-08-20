@@ -6,7 +6,7 @@
 <title>Contact | Lala Paneer Udyog</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css"><script defer src="js/navigation.js"></script><script type="module" src="js/firebase.js"></script><script type="module" src="js/site.js"></script>
+<link rel="stylesheet" href="style.css"><script defer src="navigation.js"></script><script type="module" src="firebase.js"></script><script type="module" src="site.js"></script>
 </head>
 <body>
 <header class="site-header"><a class="brand" href="index.html"><span class="brand-mark">LP</span><span><strong>लाला पनीर उद्योग</strong><small>Lala Paneer Udyog</small></span></a><button class="nav-toggle" id="navToggle" aria-label="Open navigation" aria-expanded="false">☰</button><nav class="nav" id="siteNav"><a href="index.html">Home</a><a href="products.html">Products</a><a href="services.html">Services</a><a href="about.html">About</a><a class="active" href="contact.html">Contact</a><a class="nav-cta" data-whatsapp-link href="https://wa.me/918949162380?text=Hello%20Lala%20Paneer%20Udyog%2C%20I%20would%20like%20to%20enquire%20or%20place%20an%20order." target="_blank" rel="noopener noreferrer">WhatsApp</a></nav></header>
@@ -19,12 +19,12 @@
 <p class="form-helper">Order ya enquiry ke liye apni basic details aur requirement yahan bhejein. Team aapse call/WhatsApp par confirm karegi.</p>
 
 <div class="form-row">
-  <label>Name / Naam<input name="name" autocomplete="name" required maxlength="80" placeholder="Your name"></label>
-  <label>Mobile / Mobile Number<input name="phone" inputmode="tel" autocomplete="tel" required maxlength="15" placeholder="10-digit mobile number"></label>
+  <label>Name / Naam <span class="required-mark" aria-hidden="true">*</span><input name="name" autocomplete="name" required maxlength="80" placeholder="Your name"></label>
+  <label>Mobile / Mobile Number <span class="required-mark" aria-hidden="true">*</span><input name="phone" inputmode="tel" autocomplete="tel" required maxlength="15" placeholder="10-digit mobile number"></label>
 </div>
 
 <div class="form-row">
-  <label>Email (optional) / Email (optional)<input name="email" type="email" autocomplete="email" maxlength="120" placeholder="name@example.com"></label>
+  <label>Email / Email <span class="required-mark" aria-hidden="true">*</span><input name="email" type="email" required autocomplete="email" maxlength="120" placeholder="name@example.com"></label>
   <label>Requirement / Kya chahiye?
     <select name="type">
       <option value="general">General enquiry / General baat</option>
@@ -36,14 +36,14 @@
 
 <div class="order-fields" id="orderFields" hidden aria-hidden="true">
   <div class="form-row">
-    <label>Product / Product ka naam<input name="productName" maxlength="120" placeholder="e.g. Paneer"></label>
-    <label>Quantity / Kitna chahiye?<input name="quantity" maxlength="80" placeholder="e.g. 5 kg"></label>
+    <label>Product / Product ka naam <span class="required-mark conditional-required" aria-hidden="true">*</span><input name="productName" maxlength="120" placeholder="e.g. Paneer"></label>
+    <label>Quantity / Kitna chahiye? <span class="required-mark conditional-required" aria-hidden="true">*</span><input name="quantity" maxlength="80" placeholder="e.g. 5 kg"></label>
   </div>
   <div class="form-row">
     <label>Preferred date / Kis din?<input name="preferredDate" type="date"></label>
     <label>Preferred time / Kis time?<input name="preferredTime" type="time"></label>
   </div>
-  <label>Delivery / Pickup details<input name="address" maxlength="250" placeholder="Delivery address or pickup details (optional)"></label>
+  <label>Delivery / Pickup address <span class="required-mark conditional-required" aria-hidden="true">*</span><input name="address" maxlength="250" placeholder="Full delivery address or pickup details"></label>
   <input type="hidden" name="productId" value="">
   <input type="hidden" name="service" value="">
   <input type="hidden" name="intent" value="">
@@ -51,7 +51,7 @@
 
 <label>Message / Requirement details
   <textarea name="message" minlength="0" maxlength="1200" rows="6" placeholder="Product, quantity, date, time ya koi aur requirement likhein."></textarea>
-  <span class="field-hint">Example: Paneer 5 kg chahiye, kal shaam 5 baje pickup karna hai.</span>
+  <span class="field-hint">* = Required. Other details can be added if needed.<br>Example: Paneer 5 kg chahiye, kal shaam 5 baje pickup karna hai.</span>
 </label>
 
 <button class="btn btn-primary submit-btn" type="submit">Submit / Bhejein</button>

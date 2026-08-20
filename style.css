@@ -430,6 +430,35 @@ button {
   border-radius: 16px;
 }
 
+
+/* Homepage service feature cards are links so visitors can jump directly to the matching service section. */
+.feature-service {
+  display: grid;
+  grid-template-columns: 42px 1fr;
+  gap: 15px;
+  padding: 18px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  color: inherit;
+  text-decoration: none;
+  transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+}
+.feature-service:hover,
+.feature-service:focus-visible {
+  border-color: var(--accent);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 22px rgba(0,0,0,.06);
+  outline: none;
+}
+.feature-service > span {
+  font-weight: 800;
+  color: var(--accent);
+}
+.feature-service h3 { margin: 0; }
+.feature-service p { margin: 3px 0 4px; color: var(--muted); font-size: 14px; }
+.feature-service small { color: var(--primary); font-weight: 700; font-size: 12px; }
+
 .feature-list span,
 .service-card > span {
   font-weight: 800;
@@ -790,7 +819,7 @@ button {
   }
 
   .section {
-    padding: 58px 16px;
+    padding: 40px 16px;
   }
 
   .hero h1 {
@@ -814,6 +843,48 @@ button {
   .service-grid {
     grid-template-columns: 1fr;
   }
+
+  .split {
+    gap: 24px;
+  }
+
+  .feature-list {
+    gap: 10px;
+  }
+
+  .feature-service {
+    gap: 10px;
+    padding: 14px;
+    border-radius: 14px;
+  }
+
+  .feature-service p {
+    font-size: 13px;
+    line-height: 1.4;
+  }
+
+  .feature-service small {
+    font-size: 11px;
+  }
+
+  .service-card {
+    min-height: 0;
+    padding: 18px;
+  }
+
+  .service-card h2 {
+    margin: 12px 0 7px;
+    font-size: 21px;
+  }
+
+  .service-card p {
+    margin: 0 0 14px;
+  }
+
+  .service-grid {
+    gap: 12px;
+  }
+
 
   /* Compact product cards on phones: show three products in a row
      without introducing horizontal page scrolling. */
@@ -937,7 +1008,8 @@ button {
   }
 
   .page-hero {
-    padding-top: 55px;
+    padding-top: 38px;
+    padding-bottom: 30px;
   }
 }
 
@@ -1349,4 +1421,117 @@ img, iframe {
   .product-category-row .product-card,
   #featuredProducts.product-grid .product-card { flex-basis: 72%; width: 72%; }
   .product-category-section { margin-bottom: 26px; }
+}
+
+
+/* v9: calmer spacing + clearer required fields + contact form visibility */
+:root { --success: #17834b; }
+.required-mark { color: var(--primary); font-weight: 800; margin-left: 2px; }
+.form-status.success { color: var(--success); font-weight: 700; }
+.form-status.error { color: var(--danger); font-weight: 700; }
+.form-status.success::first-letter, .form-status.error::first-letter { font-weight: 900; }
+
+/* Reduce oversized desktop whitespace without changing the overall design. */
+@media (min-width: 951px) {
+  .section { padding-top: 58px; padding-bottom: 58px; }
+  .hero { gap: 42px; min-height: 560px; }
+  .page-hero { padding-top: 62px; padding-bottom: 32px; }
+  .split { gap: 44px; }
+  .page-hero h1 { margin-bottom: 14px; }
+  .page-hero p { margin: 0; }
+  .section-heading { margin-bottom: 22px; }
+  .contact-layout { gap: 20px; }
+  .footer { padding-top: 34px; padding-bottom: 62px; }
+}
+
+@media (min-width: 701px) and (max-width: 950px) {
+  .section { padding-top: 52px; padding-bottom: 52px; }
+  .page-hero { padding-top: 50px; padding-bottom: 28px; }
+}
+
+@media (max-width: 700px) {
+  body { padding-bottom: 48px; }
+  .section { padding-top: 28px; padding-bottom: 28px; }
+  .page-hero { padding-top: 28px; padding-bottom: 20px; }
+  .page-hero h1 { margin-bottom: 10px; }
+  .page-hero p { margin-top: 0; }
+
+  /* On Contact, show the enquiry form before the tall direct-contact card so
+     the user can see and use the form without scrolling past the sticky bar. */
+  .contact-layout { display: flex; flex-direction: column; gap: 16px; }
+  .contact-layout .form-card { order: 1; }
+  .contact-layout .contact-card { order: 2; }
+
+  .contact-card, .form-card { padding: 18px; }
+  .form-card h2, .contact-card h2 { margin-bottom: 8px; }
+  .form-helper { margin-bottom: 12px; }
+  .form-card label { margin-bottom: 10px; }
+  .form-card textarea { min-height: 120px; }
+
+  /* Compact fixed contact bar so it never hides the form/status area. */
+  .mobile-actions { height: 48px; }
+  .mobile-actions a { min-height: 48px; padding: 8px 12px; font-size: 14px; }
+
+  /* Avoid very large empty vertical zones on common phone widths. */
+  .hero { gap: 24px; }
+  .split { gap: 20px; }
+  .section-heading { margin-bottom: 18px; }
+}
+
+@media (max-width: 420px) {
+  .section { padding-top: 24px; padding-bottom: 24px; }
+  .page-hero { padding-top: 24px; padding-bottom: 16px; }
+  .contact-layout { gap: 12px; }
+}
+
+@media (max-width: 700px) {
+  .form-card .required-mark { font-size: 12px; }
+  .mobile-actions { box-sizing: border-box; }
+  .contact-layout .form-card { scroll-margin-top: 82px; }
+}
+
+
+/* v10: balanced page rhythm and category counts that stay beside the title. */
+.product-category-heading {
+  display: block;
+  margin: 0 0 14px;
+}
+.product-category-heading-main { min-width: 0; }
+.product-category-title-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-start;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.product-category-title-row h2 { margin: 0; }
+.product-category-count {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+@media (min-width: 951px) {
+  /* The page hero and its content section are one visual block; don't leave
+     a second full section of empty padding between them. */
+  .page-hero + .section { padding-top: 22px; }
+  .page-hero + .section .filter-bar { margin-bottom: 22px; }
+  .product-category-section { margin-bottom: 34px; }
+  .product-category-heading { margin-bottom: 12px; }
+  .service-grid { gap: 16px; }
+  .service-card { padding: 24px; min-height: 210px; }
+  .contact-layout { gap: 20px; }
+}
+
+@media (min-width: 701px) and (max-width: 950px) {
+  .page-hero + .section { padding-top: 22px; }
+  .product-category-section { margin-bottom: 30px; }
+}
+
+@media (max-width: 700px) {
+  .page-hero + .section { padding-top: 16px; }
+  .product-category-heading { margin-bottom: 10px; }
+  .product-category-title-row { gap: 8px; }
+  .product-category-count { font-size: 11px; }
 }

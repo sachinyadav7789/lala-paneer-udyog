@@ -58,8 +58,10 @@ $("#orderForm").addEventListener("submit", async event => {
     const message=String(f.get("message")||"").trim();
     if(name.length<2 || name.length>80) throw new Error("Please enter a valid name.");
     if(!validPhone(phone)) throw new Error("Please enter a valid 10-digit mobile number.");
-    if(email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) throw new Error("Please enter a valid email.");
+    if(!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) throw new Error("Please enter a valid email address.");
     if(!Number.isFinite(quantity) || quantity<=0) throw new Error("Please enter a valid quantity.");
+    const address=String(f.get("address")||"").trim();
+    if(address.length<5 || address.length>250) throw new Error("Please enter the delivery/pickup address.");
     if(!validMessage(message)) throw new Error("Extra requirement is too long. Please keep it within 1200 characters.");
 
     const activeOffer=product.offer?.enabled===true;
@@ -75,15 +77,15 @@ $("#orderForm").addEventListener("submit", async event => {
       total,
       preferredDate:String(f.get("preferredDate")||"").trim()||null,
       preferredTime:String(f.get("preferredTime")||"").trim()||null,
-      address:String(f.get("address")||"").trim()||null,
+      address,
       message, createdAt:serverTimestamp(), updatedAt:serverTimestamp()
     });
-    showStatus(`Order request sent successfully. Reference: ${orderId}. Team will call/WhatsApp you to confirm.`, true);
+    showStatus(`✓ Order request sent successfully. Reference: ${orderId}. Team will call/WhatsApp you to confirm.`, true);
     form.reset();
     $("#productId").value=product.id;
   } catch(e) {
     console.error(e);
-    showStatus(e.message || "Order submit nahi ho paya. Please try again or call us.");
+    showStatus(`⚠ ${e.message || "Order submit nahi ho paya. Please try again or call us."}`);
   } finally { button.disabled=false; }
 });
 

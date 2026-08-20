@@ -234,11 +234,13 @@ function renderProductsFromProducts(products) {
       return `
       <section class="product-category-section" aria-labelledby="${categoryId}">
         <div class="product-category-heading">
-          <div>
+          <div class="product-category-heading-main">
             <span class="eyebrow">Category</span>
-            <h2 id="${categoryId}">${escapeHtml(category)}</h2>
+            <div class="product-category-title-row">
+              <h2 id="${categoryId}">${escapeHtml(category)}</h2>
+              <span class="product-category-count">${items.length} product${items.length === 1 ? "" : "s"}</span>
+            </div>
           </div>
-          <span class="product-category-count">${items.length} product${items.length === 1 ? "" : "s"}</span>
         </div>
         <div class="product-category-row" data-category-row="${escapeHtml(category)}">
           ${items.map(productCard).join("")}
@@ -316,13 +318,17 @@ function validMessage(message) {
   return message.length >= 0 && message.length <= 1200;
 }
 
-function setOrderFieldsVisible(visible) {
+function setOrderFieldsVisible(visible, required = false) {
   const wrapper = $("#orderFields");
   if (!wrapper) return;
   wrapper.hidden = !visible;
   wrapper.setAttribute("aria-hidden", String(!visible));
   $$("input, select", wrapper).forEach(input => {
     input.disabled = !visible;
+  });
+  ["productName", "quantity", "address"].forEach(name => {
+    const input = $(`[name="${name}"]`, wrapper);
+    if (input) input.required = visible && required;
   });
 }
 
@@ -353,10 +359,13 @@ function initInquiryForm() {
   if (intentParam && intentInput) intentInput.value = intentParam;
 
   const syncFormMode = () => {
-    const isOrder = select?.value === "order";
-    setOrderFieldsVisible(isOrder);
+    const isOrderOrBulk = ["order", "bulk"].includes(select?.value);
+    const hasContext = Boolean(product || serviceParam);
+    const needsDetails = isOrderOrBulk || hasContext;
+    const detailsRequired = isOrderOrBulk;
+    setOrderFieldsVisible(needsDetails, detailsRequired);
 
-    if (isOrder && msg && !msg.value.trim() && (product || serviceParam)) {
+    if (needsDetails && msg && !msg.value.trim() && (product || serviceParam)) {
       const target = product || serviceParam;
       msg.value = `I would like to order/book ${target}. Please confirm availability, price and details.`;
     }
@@ -396,8 +405,8 @@ function initInquiryForm() {
       if (!validPhone(phone)) {
         throw new Error("Please enter a valid 10-digit mobile number.");
       }
-      if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        throw new Error("Please enter a valid email.");
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        throw new Error("Please enter a valid email address.");
       }
       if (!validMessage(message)) {
         throw new Error("Message is too long. Please keep it within 1200 characters.");
@@ -406,12 +415,15 @@ function initInquiryForm() {
         throw new Error("Please select a valid requirement.");
       }
 
-      if (type === "order") {
+      if (["order", "bulk"].includes(type)) {
         if (productName.length < 2 || productName.length > 120) {
           throw new Error("Please enter the product you want to order.");
         }
         if (!orderQuantity || orderQuantity.length > 80) {
           throw new Error("Please enter the required quantity.");
+        }
+        if (address.length < 5 || address.length > 250) {
+          throw new Error("Please enter the delivery/pickup address.");
         }
 
         const orderRef = await addDoc(collection(db, "orders"), {
@@ -434,7 +446,7 @@ function initInquiryForm() {
         });
 
         status.className = "form-status success";
-        status.textContent = `Order request sent successfully. Reference: ${orderRef.id.slice(0, 8).toUpperCase()}`;
+        status.textContent = `✓ Order request sent successfully. Reference: ${orderRef.id.slice(0, 8).toUpperCase()}`;
       } else {
         const inquiryRef = await addDoc(collection(db, "inquiries"), {
           name,
@@ -451,7 +463,7 @@ function initInquiryForm() {
         });
 
         status.className = "form-status success";
-        status.textContent = `Enquiry submitted successfully. Reference: ${inquiryRef.id.slice(0, 8).toUpperCase()}`;
+        status.textContent = `✓ Enquiry submitted successfully. Reference: ${inquiryRef.id.slice(0, 8).toUpperCase()}`;
       }
 
       form.reset();
@@ -464,7 +476,7 @@ function initInquiryForm() {
     } catch (error) {
       console.error("Public form submission error:", error);
       status.className = "form-status error";
-      status.textContent = error?.message || "Submit nahi ho paya. Please try again or contact us on WhatsApp.";
+      status.textContent = `⚠ ${error?.message || "Submit nahi ho paya. Please try again or contact us on WhatsApp."}`;
     } finally {
       if (button) button.disabled = false;
     }
