@@ -9,6 +9,7 @@ This is the **user/customer-side website** for Lala Paneer Udyog.
 - Services
 - About
 - Contact
+- Dedicated direct order page
 - Firebase product loading
 - Dynamic product pricing/availability
 - Dynamic offer display
@@ -83,7 +84,7 @@ The next implementation stage is the separate `/admin` application with Firebase
 
 - Product cards load from Firestore `products` in realtime.
 - Only `publicVisible == true` products are shown publicly.
-- `Order Now` opens the customer form with the selected product.
+- `Order Now` opens the dedicated order page with the selected product; it does not send the customer into the enquiry flow.
 - Order requests are saved to Firestore `orders` with status `New` and appear in the Admin Panel.
 - `Ask / Enquire` saves to `inquiries`.
 - WhatsApp and phone links have working static fallbacks, so they do not depend on JavaScript to create their first valid link.
@@ -101,3 +102,13 @@ This keeps the existing Admin offers collection while making the customer websit
 ## Firebase rules
 
 After deploying the updated files, deploy the matching `firebase/firestore.rules` to the same Firebase project. The public site does not need a Firebase config pasted into HTML; `js/firebase.js` already initializes the same project.
+
+## Customer order and billing workflow
+
+- Product `Order Now` → `order.html` → order details → Firestore `orders`.
+- Product `Ask / Enquire` → `contact.html` → Firestore `inquiries`.
+- Orders carry quantity, unit, live unit price, calculated total, delivery/pickup details and customer contact data.
+- Admin confirmation can automatically create a linked bill and customer record.
+- Order status history is immutable under `orders/{orderId}/history`.
+- Bill corrections are Admin-only and the previous version is stored under `bills/{billId}/history`.
+- Call/WhatsApp actions are available in the Admin order/inquiry views.

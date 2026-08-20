@@ -3,31 +3,44 @@ const BUSINESS_WHATSAPP = "918949162380";
 const navQuery = (selector, root = document) => root.querySelector(selector);
 const navAll = (selector, root = document) => [...root.querySelectorAll(selector)];
 
+let navigationReady = false;
+
 function closeMobileNav() {
   const toggle = navQuery("#navToggle");
   const nav = navQuery("#siteNav");
   if (!toggle || !nav) return;
-
   nav.classList.remove("open");
   toggle.setAttribute("aria-expanded", "false");
+  toggle.setAttribute("aria-label", "Open navigation");
   document.body.classList.remove("nav-open");
 }
 
-function initNavigation() {
+function openMobileNav() {
   const toggle = navQuery("#navToggle");
   const nav = navQuery("#siteNav");
   if (!toggle || !nav) return;
+  nav.classList.add("open");
+  toggle.setAttribute("aria-expanded", "true");
+  toggle.setAttribute("aria-label", "Close navigation");
+  document.body.classList.add("nav-open");
+}
+
+function initNavigation() {
+  if (navigationReady) return;
+  const toggle = navQuery("#navToggle");
+  const nav = navQuery("#siteNav");
+  if (!toggle || !nav) return;
+  navigationReady = true;
 
   toggle.addEventListener("click", event => {
+    event.preventDefault();
     event.stopPropagation();
-    const open = !nav.classList.contains("open");
-    nav.classList.toggle("open", open);
-    toggle.setAttribute("aria-expanded", String(open));
-    document.body.classList.toggle("nav-open", open);
+    nav.classList.contains("open") ? closeMobileNav() : openMobileNav();
   });
 
   nav.addEventListener("click", event => {
-    if (event.target.closest("a")) closeMobileNav();
+    const link = event.target.closest("a");
+    if (link) closeMobileNav();
   });
 
   document.addEventListener("click", event => {
@@ -41,13 +54,12 @@ function initNavigation() {
 
   window.addEventListener("resize", () => {
     if (window.innerWidth > 700) closeMobileNav();
-  });
+  }, { passive: true });
 }
 
 function initWhatsAppLinks() {
   const message = "Hello Lala Paneer Udyog, I found your website and would like to enquire/order.";
   const href = `https://wa.me/${BUSINESS_WHATSAPP}?text=${encodeURIComponent(message)}`;
-
   navAll("[data-whatsapp-link]").forEach(link => {
     link.href = href;
     link.target = "_blank";
@@ -55,5 +67,9 @@ function initWhatsAppLinks() {
   });
 }
 
-initNavigation();
-initWhatsAppLinks();
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", () => { initNavigation(); initWhatsAppLinks(); }, { once: true });
+} else {
+  initNavigation();
+  initWhatsAppLinks();
+}

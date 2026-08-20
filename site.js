@@ -83,8 +83,8 @@ function productCard(product) {
 
   const productName = product.name || "Dairy Product";
   const orderHref = available
-    ? `contact.html?type=order&product=${encodeURIComponent(productName)}&productId=${encodeURIComponent(product.id || "")}`
-    : `contact.html?type=general&product=${encodeURIComponent(productName)}`;
+    ? `order.html?productId=${encodeURIComponent(product.id || "")}`
+    : `contact.html?type=general&product=${encodeURIComponent(productName)}&productId=${encodeURIComponent(product.id || "")}`;
 
   const enquiryHref = `contact.html?type=general&product=${encodeURIComponent(productName)}&productId=${encodeURIComponent(product.id || "")}`;
 
@@ -205,7 +205,7 @@ function renderProductsFromProducts(products) {
   const filters = $("#categoryFilters");
   if (!grid || !filters) return;
 
-  const categories = ["All", ...new Set(products.map(p => p.category).filter(Boolean))];
+  const categories = ["All", ...new Set(products.map(p => String(p.category || "").trim()).filter(Boolean))];
   const current = $(".filter-bar button.active", filters)?.dataset.category || "All";
 
   filters.innerHTML = categories.map((category, index) => {
@@ -213,16 +213,47 @@ function renderProductsFromProducts(products) {
     return `<button type="button" class="${active ? "active" : ""}" data-category="${escapeHtml(category)}">${escapeHtml(category)}</button>`;
   }).join("");
 
+  const renderCategorySections = (list, categoryFilter) => {
+    const grouped = new Map();
+    list.forEach(product => {
+      const category = String(product.category || "Other").trim() || "Other";
+      if (!grouped.has(category)) grouped.set(category, []);
+      grouped.get(category).push(product);
+    });
+
+    const orderedGroups = [...grouped.entries()]
+      .sort((a, b) => a[0].localeCompare(b[0], "en", { sensitivity: "base" }));
+
+    if (!orderedGroups.length) {
+      grid.innerHTML = `<div class="loading-card">No products found in this category.</div>`;
+      return;
+    }
+
+    grid.innerHTML = orderedGroups.map(([category, items]) => {
+      const categoryId = `category-${String(category).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "other"}`;
+      return `
+      <section class="product-category-section" aria-labelledby="${categoryId}">
+        <div class="product-category-heading">
+          <div>
+            <span class="eyebrow">Category</span>
+            <h2 id="${categoryId}">${escapeHtml(category)}</h2>
+          </div>
+          <span class="product-category-count">${items.length} product${items.length === 1 ? "" : "s"}</span>
+        </div>
+        <div class="product-category-row" data-category-row="${escapeHtml(category)}">
+          ${items.map(productCard).join("")}
+        </div>
+      </section>`;
+    }).join("");
+
+    renderProductImagesAndTimers();
+  };
+
   const draw = category => {
     const list = category === "All"
       ? products
-      : products.filter(p => p.category === category);
-
-    grid.innerHTML = list.length
-      ? list.map(productCard).join("")
-      : `<div class="loading-card">No products found in this category.</div>`;
-
-    renderProductImagesAndTimers();
+      : products.filter(p => String(p.category || "").trim() === category);
+    renderCategorySections(list, category);
   };
 
   draw(categories.includes(current) ? current : "All");
@@ -240,13 +271,9 @@ function renderProductsFromProducts(products) {
       const category = button.dataset.category;
       const list = category === "All"
         ? latestProducts
-        : latestProducts.filter(product => product.category === category);
+        : latestProducts.filter(product => String(product.category || "").trim() === category);
 
-      grid.innerHTML = list.length
-        ? list.map(productCard).join("")
-        : `<div class="loading-card">No products found in this category.</div>`;
-
-      renderProductImagesAndTimers();
+      renderCategorySections(list, category);
     });
   }
 }
@@ -307,22 +334,31 @@ function initInquiryForm() {
   const product = getParam("product");
   const productId = getParam("productId");
   const typeParam = getParam("type");
+  const serviceParam = getParam("service");
+  const intentParam = getParam("intent");
   const msg = $("textarea[name='message']", form);
   const select = $("select[name='type']", form);
   const productInput = $("input[name='productName']", form);
   const productIdInput = $("input[name='productId']", form);
+  const serviceInput = $("input[name='service']", form);
+  const intentInput = $("input[name='intent']", form);
 
   if (product && productInput) productInput.value = product;
   if (productId && productIdInput) productIdInput.value = productId;
   if (typeParam === "bulk" && select) select.value = "bulk";
   if (typeParam === "order" && select) select.value = "order";
+  if (intentParam === "order" && select) select.value = "order";
+  if (serviceParam && serviceInput) serviceInput.value = serviceParam;
+  if (intentParam === "order" && serviceParam && productInput) productInput.value = serviceParam;
+  if (intentParam && intentInput) intentInput.value = intentParam;
 
   const syncFormMode = () => {
     const isOrder = select?.value === "order";
     setOrderFieldsVisible(isOrder);
 
-    if (isOrder && msg && !msg.value.trim() && product) {
-      msg.value = `I would like to order ${product}. Please confirm availability and total price.`;
+    if (isOrder && msg && !msg.value.trim() && (product || serviceParam)) {
+      const target = product || serviceParam;
+      msg.value = `I would like to order/book ${target}. Please confirm availability, price and details.`;
     }
   };
 
@@ -351,6 +387,8 @@ function initInquiryForm() {
       const preferredTime = String(data.preferredTime || "").trim();
       const address = String(data.address || "").trim();
       const orderProductId = String(data.productId || "").trim();
+      const service = String(data.service || "").trim();
+      const intent = String(data.intent || "").trim();
 
       if (name.length < 2 || name.length > 80) {
         throw new Error("Please enter a valid name.");
@@ -389,6 +427,8 @@ function initInquiryForm() {
           preferredDate: preferredDate || null,
           preferredTime: preferredTime || null,
           address: address || null,
+          service: service || null,
+          intent: intent || "order",
           message,
           createdAt: serverTimestamp()
         });
@@ -405,6 +445,8 @@ function initInquiryForm() {
           source: "contact-form",
           status: "New",
           productName: productName || null,
+          service: service || null,
+          intent: intent || "inquiry",
           createdAt: serverTimestamp()
         });
 
@@ -416,6 +458,8 @@ function initInquiryForm() {
       if (product && productInput) productInput.value = product;
       if (productId && productIdInput) productIdInput.value = productId;
       if (typeParam === "order" && select) select.value = "order";
+  if (serviceParam && serviceInput) serviceInput.value = serviceParam;
+  if (intentParam && intentInput) intentInput.value = intentParam;
       syncFormMode();
     } catch (error) {
       console.error("Public form submission error:", error);
