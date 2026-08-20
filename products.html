@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Current dairy products and offers from Lala Paneer Udyog.">
+  <meta name="theme-color" content="#fffaf0">
+  <title>Products | Lala Paneer Udyog</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="js/firebase.js"></script>
+  <script type="module" src="js/site.js"></script>
+</head>
+<body>
+<header class="site-header">
+  <a class="brand" href="index.html"><span class="brand-mark">LP</span><span><strong>लाला पनीर उद्योग</strong><small>Lala Paneer Udyog</small></span></a>
+  <button class="nav-toggle" id="navToggle" aria-label="Open navigation" aria-expanded="false">☰</button>
+  <nav class="nav" id="siteNav">
+    <a href="index.html">Home</a><a class="active" href="products.html">Products</a><a href="services.html">Services</a><a href="about.html">About</a><a href="contact.html">Contact</a><a class="nav-cta" data-whatsapp-link href="#">WhatsApp</a>
+  </nav>
+</header>
+
+<main>
+  <section class="page-hero section">
+    <span class="eyebrow">Fresh Dairy Menu</span>
+    <h1>Our Products</h1>
+    <p>Current prices and availability are managed from the Admin Panel and loaded from Firebase.</p>
+  </section>
+
+  <section class="section">
+    <div class="filter-bar" id="categoryFilters"></div>
+    <div class="product-grid product-grid-large" id="productGrid">
+      <div class="loading-card">Loading products…</div>
+    </div>
+  </section>
+
+  <section class="section section-soft">
+    <div class="section-heading">
+      <span class="eyebrow">Need more?</span>
+      <h2>Bulk or event requirement?</h2>
+      <p>For wedding, hotel, restaurant, halwai and other large requirements, use the enquiry flow.</p>
+      <a class="btn btn-primary" href="contact.html?type=bulk">Send bulk enquiry</a>
+    </div>
+  </section>
+</main>
+<footer class="footer"><div><strong>Lala Paneer Udyog</strong><p>आपकी खुशी और स्वाद की पूरी जिम्मेदारी हमारी।</p></div><div><p>8949162380 · 8003647577</p><p>lalapaneeru@gmail.com</p></div><div class="footer-credit">Built with ❤️ by CityByteHub</div></footer>
+<div class="mobile-actions"><a href="tel:+918949162380">Call</a><a data-whatsapp-link href="#">WhatsApp</a></div>
+</body>
+</html>
