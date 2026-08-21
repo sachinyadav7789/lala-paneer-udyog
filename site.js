@@ -34,7 +34,7 @@ function safeImageUrl(value) {
 
 function formatPrice(value) {
   const n = Number(value);
-  if (!Number.isFinite(n)) return "Price on enquiry";
+  if (!Number.isFinite(n) || n <= 0) return "Price on enquiry";
   return new Intl.NumberFormat("en-IN", {
     style: "currency",
     currency: "INR",
@@ -94,6 +94,7 @@ function productCard(product) {
       <div class="product-body">
         ${activeOffer ? `<span class="badge">${escapeHtml(product.offer.badge || "Special Offer")}</span>` : ""}
         <h3>${escapeHtml(productName)}</h3>
+        ${product.variant && product.variant !== "Standard" ? `<span class="product-variant">${escapeHtml(product.variant)}</span>` : ""}
         <p>${escapeHtml(product.description || "Fresh dairy product from Lala Paneer Udyog.")}</p>
         <div class="price-line">
           <span class="price">${formatPrice(price)}<small> / ${escapeHtml(unit)}</small></span>
@@ -166,19 +167,21 @@ function renderProductImagesAndTimers() {
 }
 
 function subscribeToProducts(onProducts, onError) {
-  // Deliberately avoid orderBy here so the public site does not depend on
-  // a composite-index deployment. Sorting is done safely in the browser.
-  const q = query(
-    collection(db, "products"),
-    where("publicVisible", "==", true)
-  );
-
+  // Read the catalogue without a visibility where-clause so the public site
+  // never depends on a Firestore index. Visibility is filtered in memory.
+  // This also keeps legacy products (without publicVisible) compatible.
+  const q = query(collection(db, "products"));
   return onSnapshot(
     q,
     snapshot => {
       const products = snapshot.docs
         .map(doc => ({ id: doc.id, ...doc.data() }))
-        .sort((a, b) => String(a.name || "").localeCompare(String(b.name || ""), "en", { sensitivity: "base" }));
+        .filter(product => product.publicVisible !== false)
+        .sort((a, b) => {
+          const ao = Number(a.sortOrder ?? 9999), bo = Number(b.sortOrder ?? 9999);
+          if (ao !== bo) return ao - bo;
+          return String(a.name || "").localeCompare(String(b.name || ""), "en", { sensitivity: "base" });
+        });
       onProducts(products);
     },
     error => {
@@ -192,7 +195,7 @@ function renderFeaturedFromProducts(products) {
   const grid = $("#featuredProducts");
   if (!grid) return;
 
-  const visible = products.filter(product => product.available !== false).slice(0, 4);
+  const visible = products.filter(product => product.available !== false);
   grid.innerHTML = visible.length
     ? visible.map(productCard).join("")
     : `<div class="loading-card">No products are currently published.</div>`;
@@ -483,5 +486,23 @@ function initInquiryForm() {
   });
 }
 
+function initHeroSlider() {
+  const root = $("#heroSlider");
+  if (!root) return;
+  const slides = $$(".hero-slide", root);
+  const dots = $$("[data-hero-dot]", root);
+  if (slides.length < 2) return;
+  let index = 0;
+  const show = next => {
+    index = (next + slides.length) % slides.length;
+    slides.forEach((slide, i) => slide.classList.toggle("active", i === index));
+    dots.forEach((dot, i) => dot.classList.toggle("active", i === index));
+  };
+  dots.forEach((dot, i) => dot.addEventListener("click", () => show(i)));
+  show(0);
+  window.setInterval(() => show(index + 1), 2000);
+}
+
+initHeroSlider();
 initProductRealtime();
 initInquiryForm();
