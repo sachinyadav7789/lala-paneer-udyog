@@ -1,33 +1,83 @@
 <!doctype html>
 <html lang="en">
+
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Place a product order with Lala Paneer Udyog.">
-<title>Order | Lala Paneer Udyog</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
-<script defer src="navigation.js"></script>
-<script type="module" src="order.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Place a product order with Lala Paneer Udyog.">
+    <title>Order | Lala Paneer Udyog</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script defer src="navigation.js"></script>
+    <script type="module" src="order.js"></script>
 </head>
+
 <body>
-<header class="site-header"><a class="brand" href="index.html"><span class="brand-mark">LP</span><span><strong>लाला पनीर उद्योग</strong><small>Lala Paneer Udyog</small></span></a><button class="nav-toggle" id="navToggle" aria-label="Open navigation" aria-expanded="false" type="button">☰</button><nav class="nav" id="siteNav"><a href="index.html">Home</a><a href="products.html">Products</a><a href="services.html">Services</a><a href="about.html">About</a><a href="contact.html">Contact</a><a class="nav-cta" data-whatsapp-link href="https://wa.me/918949162380" target="_blank" rel="noopener noreferrer">WhatsApp</a></nav></header>
-<main>
-<section class="page-hero section"><span class="eyebrow">Direct order</span><h1>Order the product you need.</h1><p>Product details are filled from the live catalogue. Submit once; our team will confirm availability, delivery/pickup and final total.</p></section>
-<section class="section"><div class="order-layout">
-<aside class="order-product-card" id="selectedProduct"><div class="loading-card">Loading product…</div></aside>
-<form class="form-card" id="orderForm" novalidate>
-<h2>Order details / Order ki details</h2><p class="form-helper">* wale fields required hain. Quantity aur address zaroor bharein. Final total team confirmation ke baad fix hoga.</p>
-<input type="hidden" name="productId" id="productId">
-<div class="form-row"><label>Name / Naam <span class="required-mark" aria-hidden="true">*</span><input name="name" required maxlength="80" autocomplete="name"></label><label>Mobile / Mobile Number <span class="required-mark" aria-hidden="true">*</span><input name="phone" required maxlength="15" inputmode="tel" autocomplete="tel"></label></div>
-<div class="form-row"><label>Email / Email <span class="required-mark" aria-hidden="true">*</span><input name="email" type="email" required maxlength="120" autocomplete="email"></label><label>Quantity / Kitna chahiye? <span class="required-mark" aria-hidden="true">*</span><input name="quantity" type="number" min="0.01" step="0.01" required inputmode="decimal"><span class="field-hint" id="quantityUnit">Unit</span></label></div>
-<div class="form-row"><label>Preferred date / Kis din?<input name="preferredDate" type="date"></label><label>Preferred time / Kis time?<input name="preferredTime" type="time"></label></div>
-<label>Delivery / Pickup address <span class="required-mark" aria-hidden="true">*</span><input name="address" maxlength="250" required placeholder="Full delivery address or pickup details"></label>
-<label>Extra requirement / Aur kuch?<textarea name="message" minlength="0" maxlength="1200" rows="5" placeholder="Optional — koi extra detail ho to likhein."></textarea>
-<button class="btn btn-primary submit-btn" type="submit">Place order / Order bhejein</button>
-<p class="form-status" id="orderStatus" role="status" aria-live="polite"></p>
-</form></div></section>
-</main>
-<footer class="footer"><div><strong>Lala Paneer Udyog</strong><p>उच्च क्वालिटी, वाजिब दाम</p></div><div><p>8949162380 · 8003647577</p><p>lalapaneeru@gmail.com</p></div><div class="footer-credit">Built with ❤️ by CityByteHub</div></footer>
-<div class="mobile-actions"><a href="tel:+918949162380">Call</a><a data-whatsapp-link href="https://wa.me/918949162380" target="_blank" rel="noopener noreferrer">WhatsApp</a></div>
-</body></html>
+    <header class="site-header"><a class="brand" href="index.html"><span class="brand-mark">LP</span><span><strong>लाला
+                    पनीर उद्योग</strong><small>Lala Paneer Udyog</small></span></a><button class="nav-toggle"
+            id="navToggle" aria-label="Open navigation" aria-expanded="false" type="button">☰</button>
+        <nav class="nav" id="siteNav"><a href="index.html">Home</a><a href="products.html">Products</a><a
+                href="services.html">Services</a><a href="about.html">About</a><a href="contact.html">Contact</a><a
+                class="nav-cta" data-whatsapp-link href="https://wa.me/918949162380" target="_blank"
+                rel="noopener noreferrer">WhatsApp</a></nav>
+    </header>
+    <main>
+        <section class="page-hero section"><span class="eyebrow">Direct order</span>
+            <h1>Order the product you need.</h1>
+            <p>Product details are filled from the live catalogue. Submit once; our team will confirm availability,
+                delivery/pickup and final total.</p>
+        </section>
+        <section class="section">
+            <div class="order-layout">
+                <aside class="order-product-card" id="selectedProduct">
+                    <div class="loading-card">Loading product…</div>
+                </aside>
+                <form class="form-card" id="orderForm" novalidate>
+                    <h2>Order details / Order ki details</h2>
+                    <p class="form-helper">* wale fields required hain. Quantity aur address zaroor bharein. Final total
+                        team confirmation ke baad fix hoga.</p>
+                    <input type="hidden" name="productId" id="productId">
+                    <div class="form-row"><label>Name / Naam <span class="required-mark"
+                                aria-hidden="true">*</span><input name="name" required maxlength="80"
+                                autocomplete="name"></label><label>Mobile / Mobile Number <span class="required-mark"
+                                aria-hidden="true">*</span><input name="phone" required maxlength="15" inputmode="tel"
+                                autocomplete="tel"></label></div>
+                    <div class="form-row"><label>Email / Email <span class="required-mark"
+                                aria-hidden="true">*</span><input name="email" type="email" required maxlength="120"
+                                autocomplete="email"></label><label>Quantity / Kitna chahiye? <span
+                                class="required-mark" aria-hidden="true">*</span><input name="quantity" type="number"
+                                min="0.01" step="0.01" required inputmode="decimal"><span class="field-hint"
+                                id="quantityUnit">Unit</span></label></div>
+                    <div class="form-row"><label>Preferred date / Kis din?<input name="preferredDate"
+                                type="date"></label><label>Preferred time / Kis time?<input name="preferredTime"
+                                type="time"></label></div>
+                    <label>Delivery / Pickup address <span class="required-mark" aria-hidden="true">*</span><input
+                            name="address" maxlength="250" required
+                            placeholder="Full delivery address or pickup details"></label>
+                    <label>Extra requirement / Aur kuch?<textarea name="message" minlength="0" maxlength="1200" rows="5"
+                            placeholder="Optional — koi extra detail ho to likhein."></textarea>
+                        <button class="btn btn-primary submit-btn" type="submit">Place order / Order bhejein</button>
+                        <p class="form-status" id="orderStatus" role="status" aria-live="polite"></p>
+                </form>
+            </div>
+        </section>
+    </main>
+    <footer class="footer">
+        <div><strong>Lala Paneer Udyog</strong>
+            <p>उच्च क्वालिटी, वाजिब दाम</p>
+        </div>
+        <div>
+            <p>8949162380 · 8003647577</p>
+            <p>lalapaneeru@gmail.com</p>
+        </div>
+        <div class="footer-credit">Built with ❤️ by CityByteHub</div>
+    </footer>
+    <div class="mobile-actions"><a href="tel:+918949162380">Call</a><a data-whatsapp-link
+            href="https://wa.me/918949162380" target="_blank" rel="noopener noreferrer">WhatsApp</a></div>
+</body>
+
+</html>

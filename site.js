@@ -32,6 +32,54 @@ function safeImageUrl(value) {
   }
 }
 
+
+const WEBSITE_PRODUCT_IMAGES = {
+  paneer: "panner.png",
+  milk: "milk.jpg",
+  dahi: "dahi.png",
+  "desi-ghee": "desi ghee.png",
+  ghee: "ghee.png",
+  mawa: "mawa.png",
+  chhachh: "Chhachh.webp",
+  "fresh-cream": "Fresh Cream.png",
+  cream: "Fresh Cream.png",
+  "other-milk-products": "dairy product.png"
+};
+
+function getWebsiteProductImage(product) {
+  const text = `${product?.name || ""} ${product?.category || ""} ${product?.variant || ""}`
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim();
+
+  const matches = [
+    ["paneer", "paneer"],
+    ["desi ghee", "desi-ghee"],
+    ["ghee", "ghee"],
+    ["dahi", "dahi"],
+    ["curd", "dahi"],
+    ["milk", "milk"],
+    ["mawa", "mawa"],
+    ["khoya", "mawa"],
+    ["chhachh", "chhachh"],
+    ["chaach", "chhachh"],
+    ["buttermilk", "chhachh"],
+    ["fresh cream", "fresh-cream"],
+    ["cream", "cream"]
+  ];
+
+  for (const [keyword, key] of matches) {
+    if (text.includes(keyword)) return WEBSITE_PRODUCT_IMAGES[key];
+  }
+
+  const category = String(product?.category || "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+
+  return WEBSITE_PRODUCT_IMAGES[category] || WEBSITE_PRODUCT_IMAGES["other-milk-products"];
+}
+
 function formatPrice(value) {
   const n = Number(value);
   if (!Number.isFinite(n) || n <= 0) return "Price on enquiry";
@@ -71,11 +119,9 @@ function productCard(product) {
   const unit = product.unit || "unit";
   const available = product.available !== false;
   const endAt = activeOffer ? toMillis(product.offer?.endAt) : NaN;
-  const imageUrl = safeImageUrl(product.imageUrl);
+  const imageUrl = getWebsiteProductImage(product);
 
-  const image = imageUrl
-    ? `<img src="${escapeHtml(imageUrl)}" alt="${escapeHtml(product.name || "Dairy product")}" loading="lazy" decoding="async">`
-    : `<span class="image-placeholder" aria-hidden="true">🥛</span>`;
+  const image = `<img src="${escapeHtml(imageUrl)}" alt="${escapeHtml(product.name || "Dairy product")}" loading="lazy" decoding="async">`;
 
   const countdown = activeOffer && Number.isFinite(endAt)
     ? `<div class="offer-countdown" data-countdown-end="${endAt}" aria-live="polite">Offer ends in calculating…</div>`
@@ -167,16 +213,13 @@ function renderProductImagesAndTimers() {
 }
 
 function subscribeToProducts(onProducts, onError) {
-  // Read the catalogue without a visibility where-clause so the public site
-  // never depends on a Firestore index. Visibility is filtered in memory.
-  // This also keeps legacy products (without publicVisible) compatible.
+  // The website catalogue is fixed in the website; product details stay real-time from Firebase.
   const q = query(collection(db, "products"));
   return onSnapshot(
     q,
     snapshot => {
       const products = snapshot.docs
         .map(doc => ({ id: doc.id, ...doc.data() }))
-        .filter(product => product.publicVisible !== false)
         .sort((a, b) => {
           const ao = Number(a.sortOrder ?? 9999), bo = Number(b.sortOrder ?? 9999);
           if (ao !== bo) return ao - bo;

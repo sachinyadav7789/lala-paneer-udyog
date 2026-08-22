@@ -27,10 +27,10 @@ async function loadProduct() {
   try {
     if (productId) {
       const snap=await getDoc(doc(db,"products",productId));
-      if (snap.exists() && snap.data().publicVisible === true) product={id:snap.id,...snap.data()};
+      if (snap.exists() && snap.data().available !== false) product={id:snap.id,...snap.data()};
     }
     if (!product) {
-      const snap=await getDocs(query(collection(db,"products"), where("publicVisible","==",true)));
+      const snap=await getDocs(query(collection(db,"products"), where("available","==",true)));
       const products=snap.docs.map(d=>({id:d.id,...d.data()}));
       product=products[0] || null;
     }
